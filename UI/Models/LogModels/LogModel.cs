@@ -13,6 +13,7 @@ namespace Calculator.Models.LogModels
         private string? logMessage;
         private string? date;
         public DateTime DateCreated { get;}
+        public int Id { get; set; }
         public LogModel()
         {
             DateCreated = DateTime.Now;

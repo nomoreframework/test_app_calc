@@ -2,7 +2,7 @@ using CalcLib;
 namespace CalcLib.Tests;
 public class UnitTest1
 {
-    Calculator calculator = new Calculator();
+    MyCalculator calculator = new MyCalculator();
     [Fact]
     public void CalculatorTest()
     {
