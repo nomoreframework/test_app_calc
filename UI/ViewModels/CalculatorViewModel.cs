@@ -32,6 +32,7 @@ namespace Calculator.ViewModels
         private readonly MyCalculator? myCalculator;
         private readonly Stack<Double>? Results;
         public LogModel? myLog { get; set; }
+        private CalculatorCommand? clearPanelCommand;
 
         internal string Expression { get; set; } = "";
         public ObservableCollection<LogModel>? LogMessages { get; set; }
@@ -52,7 +53,11 @@ namespace Calculator.ViewModels
         public CalculatorCommand? RemoveCommand => removeCommand ??= new CalculatorCommand(s =>
         {
                 var length = myLog!.LogMessage.Length;
-                if (length > 0) myLog.LogMessage = myLog!.LogMessage.Remove(length - 2);
+                if (length > 0) myLog.LogMessage = myLog!.LogMessage.Remove(length - 1);
+        });
+        public CalculatorCommand? ClearPanelCommand => clearPanelCommand ??= new CalculatorCommand(s =>
+        {
+            myLog!.LogMessage = String.Empty;
         });
         public CalculatorCommand? ResultCommand => getResultCommand ??= new CalculatorCommand(obj =>
         {
@@ -69,12 +74,15 @@ namespace Calculator.ViewModels
             catch (CalculatorException calcEx)
             {
                 LogMessages!.Add(new LogModel() { LogMessage = calcEx.Message});
+                myLog!.LogMessage = calcEx.Message;
             }
             catch (ArithmeticException arithEx) {
                 LogMessages!.Add(new LogModel() { LogMessage = arithEx.Message });
+                myLog!.LogMessage = arithEx.Message;
             }
             catch (Exception sysEx) {
                 LogMessages!.Add(new LogModel() { LogMessage = sysEx.Message });
+                myLog!.LogMessage = "0";
             }
         });
         public CalculatorCommand? ClearAllCommand => clearAllCommand ??= new CalculatorCommand(obj => { LogMessages!.Clear(); });
