@@ -2,7 +2,7 @@
 
 namespace CalcLib
 {
-    public class Calculator : ICalculator
+    public class MyCalculator : ICalculator
     {
         private  struct Operator
         {
