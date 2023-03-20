@@ -84,7 +84,8 @@ namespace CalcLib
                 else if (pattern[i] == ')')
                 {
                     while (stack.Count > 0 && stack.Peek().op != '(') queue.Enqueue(stack.Pop().op.ToString());
-                    stack.Pop();
+                    if(stack.Count > 0) stack.Pop();
+                    else throw new CalculatorException($"Couldn't parse expression: {pattern}");
                 }
             }
             while(stack.Count > 0) queue.Enqueue(stack.Pop().op.ToString());
@@ -101,8 +102,7 @@ namespace CalcLib
                 }
                 else
                 {
-                    if(!isUnary(queue.Peek()) && stack.Count == 1) 
-                        throw new CalculatorException($"Missed operand, find only {stack.Pop()}");
+                    if(stack.Count == 0) throw new CalculatorException("Operand was missed!"); 
                     switch (queue.Dequeue())
                     {
                         case "+":
@@ -132,11 +132,12 @@ namespace CalcLib
             }
             return stack.Count > 0 ? stack.Pop() : throw new CalculatorException("Invalid expression");
         }
-        char[] operators = new char[6] { '+', '-', '*', '/', '^', 'v' };
+        private char[] operators = new char[6] { '+', '-', '*', '/', '^', 'v' };
+        public virtual char[] OPERATORS { get { return operators;}}
         bool isOperator(char op)
         {
             bool result = false;
-            foreach(char c in operators) if(op == c) result = true;
+            foreach(char c in OPERATORS) if(op == c) result = true;
             return result;
         }
         bool isNumber(char c) => (byte)c >= 48 && (byte)c <= 57;

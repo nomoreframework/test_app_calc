@@ -17,7 +17,7 @@ public class UnitTest1
     {
         Assert.Throws<ArithmeticException>(()=> calculator.GetResult("5*6/0"));
         Assert.Throws<CalculatorException>(()=> calculator.GetResult("5*6k0"));
-        Assert.Throws<CalculatorException>(()=> calculator.GetResult("5*()"));
+        Assert.Throws<InvalidOperationException>(()=> calculator.GetResult("5*()"));
         Assert.Throws<CalculatorException>(()=> calculator.GetResult("()"));
     }
 }
