@@ -28,6 +28,8 @@ namespace Calculator.ViewModels
             myDBContext = new CalculatorDBContext();
             logDBContext = new LogDBContext();
             myDBContext.Database.EnsureCreated();
+            logDBContext.Database.EnsureCreated();
+            logDBContext.OpErrors.Load();
             myDBContext.Operations.Load();
             if (myDBContext.Operations.Any())
                 foreach (var o in myDBContext.Operations.ToList().TakeLast(10)) LogMessages.Add(o); 
@@ -111,9 +113,12 @@ namespace Calculator.ViewModels
         public CalculatorCommand? ClearAllCommand => clearAllCommand ??= new CalculatorCommand(obj => {
 
             Task t = new(() =>
-            {
-                myDBContext!.Operations.RemoveRange(LogMessages!);
-                myDBContext!.SaveChanges();
+             {
+                if(LogMessages!.Count > 0)
+                 {
+                    myDBContext!.Operations.RemoveRange(LogMessages!);
+                    myDBContext!.SaveChanges();
+                 }
             });
             t.Start();
             t.Wait();

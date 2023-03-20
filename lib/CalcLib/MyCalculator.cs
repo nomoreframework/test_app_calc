@@ -102,9 +102,15 @@ namespace CalcLib
                 }
                 else
                 {
-                    if(stack.Count == 0) throw new CalculatorException("Operand was missed!"); 
+                    if(stack.Count == 1 && !isUnary(queue.Peek())) throw new CalculatorException("Operand was missed!"); 
                     switch (queue.Dequeue())
                     {
+                        case "^":
+                            stack.Push(Math.Pow(stack.Pop(), 2));
+                            break;
+                        case "v":
+                            stack.Push(Math.Sqrt(stack.Pop()));
+                            break;
                         case "+":
                             stack.Push(stack.Pop() + stack.Pop());
                             break;
@@ -120,13 +126,7 @@ namespace CalcLib
                                 stack.Push(stack.Pop() / (top == 0 ? throw new ArithmeticException("Divide-by-zero error"): top));
                             }
                             break;
-                        case "^":
-                            stack.Push(Math.Pow(stack.Pop(), 2));
-                            break;
-                        case "v":
-                            stack.Push(Math.Sqrt(stack.Pop()));
-                            break;
-                            default: throw new CalculatorException("Unknown operand");
+                        default: throw new CalculatorException("Unknown operand");
                     }
                 }
             }
