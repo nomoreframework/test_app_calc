@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="CalcLib">
+      <HintPath>F:\Dotnet\CalcTestApp\test_app_calc\lib\CalcLib\bin\Debug\net7.0\CalcLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
